@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ConnectAPI {
-	@GetMapping(value = "/connect/")
+	@GetMapping(value = "/Connect")
+	// in FE, the URL is /connect => different in url
 	public void connect() {
-		System.out.println("ok");
+		System.out.println("error 404 NOT FOUND");
 	}
-
 }
