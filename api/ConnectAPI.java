@@ -1,21 +1,30 @@
 package com.error.api;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.error.beans.ErrorResponseDTO;
 
 @RestController
 public class ConnectAPI {
 	@GetMapping(value = "/connect")
-	public void connect() {
+	public Object connect() {
 		try {
 			System.out.println(5 / 0);
 		} catch (Exception e) {
-			// TODO: handle exception
-			System.out.println(e);
+			// in this case, i use my exception to handle error
+			// advantage of this way, it return clear and exactly error for client
+			ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
+			errorResponseDTO.setError("error arithmetic");
+			List<String> listErrors = new ArrayList<String>();
+			listErrors.add("error division by 0");
+			listErrors.add("test error");
+			errorResponseDTO.setDetailError(listErrors);
+			return errorResponseDTO;
 		}
-		// in this case, I use default exception
-		// reality, BE occur error,
-		// but server still run and return status code is 200 (ok)
-		// however, I dont know exactly error because I dont return detail erorr
+		return null;
 	}
 }
