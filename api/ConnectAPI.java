@@ -3,29 +3,38 @@ package com.error.api;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.error.beans.BuildingDTO;
 import com.error.beans.ErrorResponseDTO;
+import com.error.customException.MyException;
 
 @RestController
 public class ConnectAPI {
-	@GetMapping(value = "/connect")
-	public Object connect() {
+
+	@PostMapping(value = "/connect/")
+	public Object pullBuilding(@RequestBody BuildingDTO buildingDTO) {
 		try {
-			System.out.println(5 / 0);
-		} catch (Exception e) {
-			// in this case, i use my exception to handle error
-			// advantage of this way, it return clear and exactly error for client
+			validate(buildingDTO);
+		} catch (MyException e) {
+			// TODO: handle exception
 			ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
-			// use variable e of exception to return :v
 			errorResponseDTO.setError(e.getMessage());
 			List<String> listErrors = new ArrayList<String>();
-			listErrors.add("error division by 0");
-			listErrors.add("test error");
+			listErrors.add("Detail error 1");
+			listErrors.add("Detail error 2");
 			errorResponseDTO.setDetailError(listErrors);
 			return errorResponseDTO;
 		}
 		return null;
+	}
+
+	// this function return error
+	public void validate(BuildingDTO buildingDTO) throws MyException {
+		if (buildingDTO.getName() == null || buildingDTO.getName().equals("") || buildingDTO.getFloor() == null) {
+			throw new MyException("message error in functoin validate");
+		}
 	}
 }
