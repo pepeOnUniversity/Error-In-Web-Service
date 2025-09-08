@@ -18,8 +18,9 @@ public class ConnectAPI {
 	public Object pullBuilding(@RequestBody BuildingDTO buildingDTO) {
 		try {
 			validate(buildingDTO);
-		} catch (MyException e) {
+		} catch (Exception e) {
 			// TODO: handle exception
+
 			ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
 			errorResponseDTO.setError(e.getMessage());
 			List<String> listErrors = new ArrayList<String>();
@@ -32,7 +33,7 @@ public class ConnectAPI {
 	}
 
 	// this function return error
-	public void validate(BuildingDTO buildingDTO) throws MyException {
+	public void validate(BuildingDTO buildingDTO) {
 		if (buildingDTO.getName() == null || buildingDTO.getName().equals("") || buildingDTO.getFloor() == null) {
 			throw new MyException("message error in functoin validate");
 		}
