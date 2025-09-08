@@ -1,6 +1,6 @@
 package com.error.customException;
 
-public class MyException extends Exception {
+public class MyException extends RuntimeException {
 
 	/**
 	 * 
@@ -11,5 +11,4 @@ public class MyException extends Exception {
 		super(s);
 		// TODO Auto-generated constructor stub
 	}
-
 }
