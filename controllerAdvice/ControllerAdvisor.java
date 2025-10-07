@@ -11,12 +11,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.error.beans.ErrorResponseDTO;
+import com.error.customException.MyException;
 
 @ControllerAdvice
 public class ControllerAdvisor extends ResponseEntityExceptionHandler {
-	// catch error arithmetic
-	@ExceptionHandler(ArithmeticException.class)
-	public ResponseEntity<Object> handleArithmeticException(ArithmeticException e, WebRequest request) {
+
+	// catch error my exception
+	@ExceptionHandler(MyException.class)
+	public ResponseEntity<Object> handleMyException(MyException e, WebRequest request) {
 		// create instance errorResponseDTO
 		ErrorResponseDTO errorResponseDTO = new ErrorResponseDTO();
 		// set error
@@ -24,11 +26,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
 		// create instance errorDetailsList to store list errors
 		List<String> errorDetailsList = new ArrayList<String>();
 		// add error
-		errorDetailsList.add("Error divide 0");
-		errorDetailsList.add("Error String Test");
+		errorDetailsList.add("Error Input Null");
+		errorDetailsList.add("Error Detail 1");
+		errorDetailsList.add("Error Detail 2");
 		// set list errors
 		errorResponseDTO.setDetailError(errorDetailsList);
 		// return
-		return new ResponseEntity<>(errorResponseDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<>(errorResponseDTO, HttpStatus.BAD_GATEWAY);
 	}
 }
